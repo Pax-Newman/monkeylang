@@ -17,7 +17,7 @@ const (
 	INT   // [0-9]+
 
 	// Operators
-	ASSIGN   // !
+	ASSIGN   // =
 	PLUS     // +
 	MINUS    // -
 	BANG     // !
