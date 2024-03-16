@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"monkey/ast"
 	"monkey/lexer"
 	"testing"
 )
@@ -32,9 +33,32 @@ let foobar = 838383;
 	}
 
 	for i, tt := range tests {
-		stmt := program.Statement[i]
+		stmt := program.Statements[i]
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
 	}
+}
+
+func testLetStatement(t *testing.T, stmt ast.Statement, name string) bool {
+	letStmt, ok := stmt.(*ast.LetStatement)
+	if !ok {
+		t.Errorf("Expected Statement==`*ast.LetStatement` Got `%T`", stmt)
+		return false
+	}
+
+	if letStmt.TokenLiteral() != "let" {
+		t.Errorf("Expected Statement.TokenLiteral==`let` Got `%q`", stmt.TokenLiteral())
+		return false
+	}
+
+	if letStmt.Name.Value != name {
+		t.Errorf("Expected Statement.Name.Value==`%s` Got `%s`", name, letStmt.Name.Value)
+	}
+
+	if letStmt.Name.TokenLiteral() != name {
+		t.Errorf("Expected Statement.Name==`%s` Got `%s`", name, letStmt.Name)
+	}
+
+	return true
 }
