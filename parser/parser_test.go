@@ -6,6 +6,20 @@ import (
 	"testing"
 )
 
+func checkParserErrors(t *testing.T, p *Parser) {
+	errors := p.Errors()
+
+	if len(errors) == 0 {
+		return
+	}
+
+	t.Errorf("Parser reported %d errors", len(errors))
+	for _, msg := range errors {
+		t.Errorf("Parser errors: %q", msg)
+	}
+	t.FailNow()
+}
+
 func TestLetStatements(t *testing.T) {
 	input := `
 let x = 5;
@@ -17,6 +31,8 @@ let foobar = 838383;
 	p := New(l)
 
 	program := p.Parse()
+	checkParserErrors(t, p)
+
 	if program == nil {
 		t.Fatalf("Parse() returned nil program")
 	}
