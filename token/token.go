@@ -1,8 +1,8 @@
 package token
 
 type Token struct {
-	Type  TokenType
-	Value string
+	Type    TokenType
+	Literal string
 }
 
 //go:generate stringer -type=TokenType
@@ -59,7 +59,7 @@ var keywords = map[string]TokenType{
 }
 
 func New(tokType TokenType, ch byte) Token {
-	return Token{Type: tokType, Value: string(ch)}
+	return Token{Type: tokType, Literal: string(ch)}
 }
 
 func Lookup(ident string) TokenType {

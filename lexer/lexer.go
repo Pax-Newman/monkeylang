@@ -83,7 +83,7 @@ func (l *Lexer) Next() token.Token {
 			prev := l.cur
 			l.readChar()
 			tok.Type = token.EQ
-			tok.Value = string(prev) + string(l.cur)
+			tok.Literal = string(prev) + string(l.cur)
 		} else {
 			tok = token.New(token.ASSIGN, l.cur)
 		}
@@ -96,7 +96,7 @@ func (l *Lexer) Next() token.Token {
 			prev := l.cur
 			l.readChar()
 			tok.Type = token.NOT_EQ
-			tok.Value = string(prev) + string(l.cur)
+			tok.Literal = string(prev) + string(l.cur)
 		} else {
 			tok = token.New(token.BANG, l.cur)
 		}
@@ -109,15 +109,15 @@ func (l *Lexer) Next() token.Token {
 	case '>':
 		tok = token.New(token.GT, l.cur)
 	case 0:
-		tok.Value = ""
+		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.cur) {
-			tok.Value = l.readIdentifier()
-			tok.Type = token.Lookup(tok.Value)
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.Lookup(tok.Literal)
 			return tok
 		} else if isDigit(l.cur) {
-			tok.Value = l.readNumber()
+			tok.Literal = l.readNumber()
 			tok.Type = token.INT
 			return tok
 		} else {
