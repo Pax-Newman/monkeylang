@@ -116,7 +116,7 @@ if (5 < 10) {
 			t.Fatalf("tests[%d] - Type wrong. Expected `%d`, got `%d`", i, tt.expectedType, tok.Type)
 		}
 
-		if tok.Value != tt.expectedValue {
+		if tok.Literal != tt.expectedValue {
 			t.Fatalf("tests[%d] - Value wrong. Expected `%q`, got `%q`", i, tt.expectedValue, tok.Type)
 		}
 	}
