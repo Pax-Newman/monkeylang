@@ -125,9 +125,10 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 
 	p.next()
 
-	for !p.expectPeek(token.SEMICOLON) {
+	for !p.peekIs(token.SEMICOLON) {
 		p.next()
 	}
+	p.next()
 
 	return stmt
 }
@@ -148,9 +149,10 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	// TODO: Set expression
 
 	// NOTE: For now we skip expressions till a semicolon
-	for !p.expectPeek(token.SEMICOLON) {
+	for !p.peekIs(token.SEMICOLON) {
 		p.next()
 	}
+	p.next()
 
 	return stmt
 }
