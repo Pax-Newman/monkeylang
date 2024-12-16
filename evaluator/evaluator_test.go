@@ -37,15 +37,15 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}
 }
 
-func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
+func testBooleanObject(t *testing.T, obj object.Object, expected bool, input string) bool {
 	result, ok := obj.(*object.Boolean)
 
 	if !ok {
-		t.Errorf("object is not Boolean, got `%T` (%+v)", obj, obj)
+		t.Errorf("object result of `%s` is not Boolean, got `%T` (%+v)", input, obj, obj)
 		return false
 	}
 	if result.Value != expected {
-		t.Errorf("object has the wrong value, got `%t` expected `%t`", result.Value, expected)
+		t.Errorf("object result of `%s` has the wrong value, got `%t` expected `%t`", input, result.Value, expected)
 		return false
 	}
 
@@ -67,11 +67,20 @@ func TestEvalBooleanExpression(t *testing.T) {
 		{"1 != 1", false},
 		{"1 == 2", false},
 		{"1 != 2", true},
+		{"true == true", true},
+		{"false == false", true},
+		{"true == false", false},
+		{"true != false", true},
+		{"false != true", true},
+		{"(1 < 2) == true", true},
+		{"(1 < 2) == false", false},
+		{"(1 > 2) == true", false},
+		{"(1 > 2) == false", true},
 	}
 
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
-		testBooleanObject(t, evaluated, tt.expected)
+		testBooleanObject(t, evaluated, tt.expected, tt.input)
 	}
 }
 
@@ -90,7 +99,7 @@ func TestBangOperator(t *testing.T) {
 
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
-		testBooleanObject(t, evaluated, tt.expected)
+		testBooleanObject(t, evaluated, tt.expected, tt.input)
 	}
 }
 
